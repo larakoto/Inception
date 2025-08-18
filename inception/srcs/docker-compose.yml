@@ -1,0 +1,57 @@
+# version: "3.9"
+
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    # env_file:
+    #   - .env
+    networks:
+      - inception
+    restart: unless-stopped
+
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    configs:
+      - source: wp_config
+        target: /etc/php/7.4/fpm/pool.d/www.conf
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress_data:/var/www/html
+    # env_file:
+    #   - .env
+    networks:
+      - inception
+    restart: unless-stopped
+    expose:
+      - "9000" # Pour php-fpm
+
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress_data:/var/www/html:ro
+    networks:
+      - inception
+    restart: unless-stopped
+
+volumes:
+  mariadb_data:
+  
+  wordpress_data:
+networks:
+  inception:
+    driver: bridge
+configs:
+  wp_config:
+    file: requirements/wordpress/php.conf
+
+
