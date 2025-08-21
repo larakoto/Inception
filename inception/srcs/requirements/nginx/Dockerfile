@@ -1,4 +1,4 @@
-FROM debian:12
+FROM debian:11
 RUN apt update && apt install  -y nginx openssl
 COPY nginx.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/nginx.sh

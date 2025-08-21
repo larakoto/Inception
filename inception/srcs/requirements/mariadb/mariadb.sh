@@ -1,16 +1,16 @@
 #!/bin/bash
+DB_PASS=$(cat $DB_PASS_FILE)
+
 if [ ! -d "/var/lib/mysql/wordpress" ]; then
-    echo "Initialisation de la base de données..."
     service  mariadb start
     sleep 2
     until mysqladmin ping --silent; do
         sleep 1
     done
-    mysql -e "CREATE DATABASE IF NOT EXISTS wordpress;"
-    mysql -e "CREATE USER IF NOT EXISTS 'wpuser'@'%' IDENTIFIED BY 'pass';"
-    mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'%';"
+    mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+    mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';"
+    mysql -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';"
     mysql -e "FLUSH PRIVILEGES;"
     service  mariadb stop
 fi
 mysqld_safe
-
