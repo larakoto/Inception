@@ -23,6 +23,7 @@ if [ ! -d "./secrets" ]; then
 fi
 
 if [ ! -f "srcs/.env" ]; then
+    mkdir -p "srcs"
     cat > "srcs/.env" <<EOF
 DB_NAME=wordpress
 DB_USER=wpuser
