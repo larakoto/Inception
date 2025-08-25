@@ -2,6 +2,7 @@
 wordpressFolder="/home/larakoto/data/wordpress"
 mariadbFolder="/home/larakoto/data/mariadb"
 secretFolder="./secrets"
+
 if [  -d "$mariadbFolder" ]; then    
     sudo rm -rf $mariadbFolder 
 fi

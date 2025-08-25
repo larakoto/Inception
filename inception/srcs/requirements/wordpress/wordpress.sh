@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 DB_PASS=$(cat $DB_PASS_FILE)
 ADMIN_PASS=$(cat $ADMIN_PASS_FILE)
 USER_PASS=$(cat $USER_PASS_FILE)
@@ -29,4 +29,4 @@ if  ! wp --path="$WPATH" core is-installed --allow-root 2> /dev/null; then
     chown -R www-data:www-data "$WPATH"
 fi
 
-php-fpm7.4 -F
+php-fpm8.2 -F

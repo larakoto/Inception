@@ -7,6 +7,5 @@ up:
 	docker-compose -f $(path) up
 down:
 	docker-compose -f $(path) down --volumes
-clean:
+clean:down
 	srcs/tools/scriptdelete.sh
-re:down build up

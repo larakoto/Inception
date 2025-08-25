@@ -2,6 +2,7 @@
 services:
   mariadb:
     build: ./requirements/mariadb
+    image: mariadb
     container_name: mariadb
     volumes:
       - mariadb_data:/var/lib/mysql
@@ -16,10 +17,11 @@ services:
     restart: unless-stopped
   wordpress:
     build: ./requirements/wordpress
+    image: wordpress
     container_name: wordpress
     configs:
       - source: wp_config
-        target: /etc/php/7.4/fpm/pool.d/www.conf
+        target: /etc/php/8.2/fpm/pool.d/www.conf
     depends_on:
       - mariadb
     volumes:
@@ -32,8 +34,8 @@ services:
       - "9000"
     environment:
       - DB_PASS_FILE=/run/secrets/db_pass
+      - USER_PASS_FILE=/run/secrets/wp_user_pass
       - ADMIN_PASS_FILE=/run/secrets/wp_admin_pass
-      - WP_USER_PASS_FILE=/run/secrets/wp_user_pass
     secrets:
       - wp_admin_pass
       - wp_user_pass
@@ -41,6 +43,7 @@ services:
     restart: unless-stopped
   nginx:
     build: ./requirements/nginx
+    image: nginx
     container_name: nginx
     depends_on:
       - wordpress
@@ -70,9 +73,8 @@ configs:
     file: requirements/wordpress/php.conf
 secrets:
   db_pass:  
-    file: ../secrets/db_pass
+    file: ../secrets/db_pass.txt
   wp_admin_pass:
-    file: ../secrets/wp_admin_pass
+    file: ../secrets/wp_admin_pass.txt
   wp_user_pass:
-    file: ../secrets/wp_user_pass
-    
+    file: ../secrets/wp_user_pass.txt

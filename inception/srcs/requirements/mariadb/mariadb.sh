@@ -11,6 +11,9 @@ if [ ! -d "/var/lib/mysql/wordpress" ]; then
     mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';"
     mysql -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';"
     mysql -e "FLUSH PRIVILEGES;"
+
+    # mysql -uroot -e"ALTER USER root@localhost IDENTIFIED BY '$DB_PASS'"
+
     service  mariadb stop
 fi
 mysqld_safe
