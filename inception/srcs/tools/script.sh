@@ -5,16 +5,7 @@ PROJECT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$PROJECT_DIR" || exit 1
 
 if [ ! -f "srcs/.env" ]; then
-    cat > "srcs/.env" <<EOF
-DB_NAME=wordpress
-DB_USER=wpuser
-DB_HOST=mariadb:3306
-WPATH=/var/www/html
-ADMIN_USER=larakoto
-ADMIN_EMAIL=larakoto@42.fr
-USER=landry
-USER_MAIL=landry@42.fr
-EOF
+    cp "srcs/.env.example" "srcs/.env"
 fi
 
 wordpressFolder="/home/larakoto/data/wordpress"
